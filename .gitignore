@@ -1,0 +1,27 @@
+# Python cache files
+__pycache__/
+
+# Model checkpoints and trained model files
+*.pth
+*.pt
+*.pkl
+
+# JSON results and tuning files (optionally ignore if they are intermediate outputs)
+phase3_tuning_results.json
+final_best_hyperparameters.json
+
+# CSV results/log files (optional, to avoid committing logs)
+*.csv
+
+# Folders for results or outputs
+results/
+ads_projecy/
+
+# Potential IDE/editor files (not shown in list but commonly useful)
+.vscode/
+.idea/
+
+# Other common ignores
+*.log
+*.tmp
+
