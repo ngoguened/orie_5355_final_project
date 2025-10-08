@@ -51,19 +51,21 @@ from phase3_hyperparameter_tuning import phase3_hyperparameter_tuning
 optimized_agent, best_params = phase3_hyperparameter_tuning()
 ```
 
-## Integration with Your Project Data
+## Integration with ORIE5355 Project Data
 
-Replace the synthetic data generation in `phase1_demand_modeling.py` with your actual data:
+**UPDATED**: The implementation now automatically loads real data from the ORIE5355 project repository instead of using synthetic data.
 
-```python
-# Replace simulate_training_data() with:
-def load_your_project_data():
-    data = pd.read_csv('your_training_data.csv')
-    customer_covariates = data[['feature1', 'feature2', ...]].values
-    prices = data['price'].values  
-    purchase_decisions = data['purchased'].values
-    return customer_covariates, prices, purchase_decisions
-```
+The system now uses:
+- Real training data from `project_code_2024_publicshare/data/train_prices_decisions_2024.csv`
+- Real test data from `project_code_2024_publicshare/data/test_user_info_2024.csv`
+- 3 customer covariates (Covariate1, Covariate2, Covariate3) instead of synthetic features
+- 50,000 training samples with real purchase decisions and prices
+
+The data loader automatically handles:
+- Loading and preprocessing the real project data
+- Converting data types and formats
+- Creating train/validation splits
+- Providing data statistics and validation
 
 ## Key Features
 

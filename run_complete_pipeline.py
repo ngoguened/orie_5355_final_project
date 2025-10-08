@@ -48,34 +48,32 @@ class ProjectIntegration:
 
     def load_project_data(self):
         """
-        Load your actual project data
-        Replace this with your actual data loading logic
+        Load real ORIE5355 project data
         """
-        print("Loading project data...")
+        print("Loading real ORIE5355 project data...")
 
         if self.project_data_path and os.path.exists(self.project_data_path):
-            # Load your actual project data
+            # Load custom project data if specified
             data = pd.read_csv(self.project_data_path)
             print(f"Loaded {len(data)} records from {self.project_data_path}")
             return data
         else:
-            # Generate synthetic data for demonstration
-            print("Using synthetic data for demonstration")
-            from phase1_demand_modeling import simulate_training_data
+            # Load real ORIE5355 project data
+            print("Loading real ORIE5355 project training data...")
+            from phase1_demand_modeling import load_project_training_data
 
-            customer_covariates, prices, purchase_decisions = simulate_training_data(10000)
+            customer_covariates, prices, purchase_decisions = load_project_training_data()
 
-            # Create DataFrame matching expected format
+            # Create DataFrame matching expected format (3 features instead of 5)
             data = pd.DataFrame({
                 'customer_feature_1': customer_covariates[:, 0],
                 'customer_feature_2': customer_covariates[:, 1],
                 'customer_feature_3': customer_covariates[:, 2],
-                'customer_feature_4': customer_covariates[:, 3],
-                'customer_feature_5': customer_covariates[:, 4],
                 'price': prices,
                 'purchased': purchase_decisions
             })
 
+            print(f"Loaded {len(data)} records from ORIE5355 project data")
             return data
 
     def run_complete_pipeline(self, quick_mode=False):

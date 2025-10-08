@@ -217,9 +217,11 @@ class DemandModel:
 
 def simulate_training_data(n_samples=10000):
     """
-    Generate synthetic training data for demonstration
-    Replace this with your actual data loading
+    DEPRECATED: Generate synthetic training data for demonstration
+    This function is kept for backward compatibility but should not be used.
+    Use load_project_training_data() instead.
     """
+    print("WARNING: simulate_training_data() is deprecated. Use load_project_training_data() instead.")
     np.random.seed(42)
 
     # Generate customer covariates (5 features)
@@ -240,6 +242,23 @@ def simulate_training_data(n_samples=10000):
 
     return customer_features, prices, purchase_decisions
 
+
+def load_project_training_data(data_path="project_code_2024_publicshare/data/"):
+    """
+    Load real training data from the ORIE5355 project
+    Replaces simulate_training_data() with actual project data
+    
+    Args:
+        data_path: Path to the data directory
+        
+    Returns:
+        customer_covariates: Customer features (n_samples, 3)
+        prices: Prices offered (n_samples,)
+        purchase_decisions: Purchase decisions (n_samples,)
+    """
+    from data_loader import load_project_training_data as load_data
+    return load_data(data_path)
+
 # Example usage for Phase 1
 def phase1_demand_model_training():
     """
@@ -247,9 +266,9 @@ def phase1_demand_model_training():
     """
     print("=== PHASE 1: DEMAND MODEL TRAINING ===")
 
-    # Step 1: Load or simulate training data
-    print("Step 1: Loading training data...")
-    customer_covariates, prices, purchase_decisions = simulate_training_data()
+    # Step 1: Load real project training data
+    print("Step 1: Loading real project training data...")
+    customer_covariates, prices, purchase_decisions = load_project_training_data()
 
     print(f"Data shape: {customer_covariates.shape[0]} samples, {customer_covariates.shape[1]} customer features")
     print(f"Purchase rate: {np.mean(purchase_decisions):.3f}")
@@ -273,9 +292,12 @@ def phase1_demand_model_training():
 
         print(f"Model saved as {model_filename}")
 
-    # Step 3: Model comparison on test set
+    # Step 3: Model comparison on validation set
     print("\nStep 3: Model comparison...")
-    test_customers, test_prices, test_purchases = simulate_training_data(1000)
+    # Use a subset of the real data for validation
+    from data_loader import ORIE5355DataLoader
+    loader = ORIE5355DataLoader()
+    _, test_customers, _, test_prices, _, test_purchases = loader.create_validation_split(validation_size=0.1, random_state=42)
 
     for model_name, model in models.items():
         pred_probs = model.predict_proba(test_customers, test_prices)
